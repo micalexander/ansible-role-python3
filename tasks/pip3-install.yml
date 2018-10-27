@@ -1,0 +1,14 @@
+---
+- name: install pip3 packages for root
+  pip:
+    name: "{{ pip3_install }}"
+    executable: pip3
+  when: pip3_install is defined and user is not defined
+- name: install pip3 packages for user "{{ user }}"
+  become: yes
+  become_user: "{{ user }}"
+  pip:
+    executable: pip3
+    name: "{{ pip3_install }}"
+    extra_args: --user
+  when: pip3_install is defined and user is defined
