@@ -1,4 +1,15 @@
 ---
+- name: ensure pip.conf file is present in home directory
+  become: yes
+  become_user: "{{ user }}"
+  lineinfile:
+    path: ~/.config/pip/pip.conf
+    line: "{{ item }}"
+    create: yes
+  with_items:
+    - '[install]'
+    - 'user=1'
+  when: pip3_install is defined and user is defined
 - name: install pip3 packages for root
   pip:
     name: "{{ pip3_install }}"
